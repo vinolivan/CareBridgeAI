@@ -473,58 +473,6 @@ The solution follows this principle:
 
 > **Agents recommend. Humans approve. Maestro governs. Robots execute. Patients stay supported.**
 
----
-
-## Demo Personas
-
-The project includes demo-ready seeded patient scenarios.
-
-### Smooth Sam
-
-A happy-path patient with complete information and no major discharge blockers.
-
-**Demo value:** Shows end-to-end automation speed and clean case progression.
-
----
-
-### Gap Gita
-
-A medium-risk cardiology patient with a medication reconciliation gap.
-
-**Demo value:** Shows readiness assessment, AI gap detection, human review, and loop-back before discharge planning.
-
----
-
-### Critical Carl
-
-A high-risk cardiology patient whose recovery signals indicate worsening condition.
-
-**Demo value:** Shows the architectural wow moment: guided recovery detects risk, interrupts the case flow, creates a linked emergency/readmission case, and alerts the care team.
-
----
-
-## Demo Script
-
-1. Open the mock EHR and flag the patient as nearing discharge readiness.
-2. Maestro creates a Patient Discharge Case.
-3. RPA retrieves and validates patient data.
-4. Agents review clinical readiness, medication reconciliation, and insurance/auth status.
-5. For Gap Gita, the agent identifies a medication gap and sends it to human review.
-6. Nurse resolves the gap.
-7. Discharge Plan Agent drafts the discharge plan.
-8. Physician reviews and approves the plan.
-9. RPA prepares and stores the discharge packet.
-10. Patient/caregiver communication is sent.
-11. Transport is coordinated.
-12. Checkout is completed.
-13. Patient 360 Recovery App is activated.
-14. Patient views daily medicines, diet instructions, precautions, and best practices.
-15. Wearable vitals appear in the recovery dashboard.
-16. Patient asks the Recovery Companion a question grounded in the discharge plan and lab documents.
-17. Recovery check-ins and reminders continue.
-18. For Critical Carl, a worsening wearable/check-in signal triggers emergency escalation.
-19. Maestro creates a linked emergency/readmission case.
-20. The original discharge case closes with a documented outcome.
 
 ---
 
@@ -625,104 +573,6 @@ flowchart LR
 | `RecoveryCompanionMessage` | PatientId, CaseId, UserQuestion, GroundedAnswer, SourceUsed, ConcernFlag, EscalationRequired |
 | `RecoveryOutcome` | CaseId, Outcome, Reason, NextAction, LinkedCaseId |
 
----
-
-## Repository Structure
-
-```text
-carebridge-ai/
-├── README.md
-├── docs/
-│   ├── architecture.md
-│   ├── demo-script.md
-│   ├── data-model.md
-│   ├── agent-prompts.md
-│   ├── patient-360.md
-│   ├── recovery-companion.md
-│   ├── wearable-integration.md
-│   ├── setup-guide.md
-│   └── screenshots/
-├── uipath/
-│   ├── maestro-case/
-│   ├── bpmn-flows/
-│   ├── agents/
-│   ├── coded-agents/
-│   ├── rpa-workflows/
-│   ├── coded-apps/
-│   └── data-service/
-├── mock-data/
-│   ├── patients.json
-│   ├── payer-snapshot.json
-│   ├── clinical-notes/
-│   ├── lab-reports/
-│   ├── discharge-plans/
-│   ├── wearable-vitals.csv
-│   └── recovery-checkins.json
-├── sample-outputs/
-│   ├── readiness-summary.json
-│   ├── discharge-plan.json
-│   ├── discharge-packet.pdf
-│   ├── patient-360-snapshot.json
-│   ├── companion-response.json
-│   └── recovery-outcome.json
-└── coding-agent-evidence/
-    ├── prompt-log.md
-    ├── generated-components.md
-    └── screenshots/
-```
-
----
-
-## How to Run the Demo
-
-### Prerequisites
-
-- UiPath Automation Cloud tenant
-- UiPath Maestro enabled
-- UiPath Agent Builder enabled
-- UiPath Studio / Studio Web
-- UiPath Apps / Coded Apps
-- UiPath coded agent capability or coded-agent-compatible implementation
-- Data Service or Data Fabric equivalent
-- Google Drive connection or mock document storage
-- Optional communication connector or mock communication workflow
-- Optional wearable data source or mock vitals CSV
-
-### Setup Steps
-
-1. Clone this repository.
-2. Import the UiPath solution package into Automation Cloud.
-3. Create or verify the Data Service entities listed in the data model.
-4. Upload mock patient data from `mock-data/patients.json`.
-5. Upload sample lab reports, discharge plans, and clinical notes.
-6. Configure Orchestrator assets for environment-specific values.
-7. Publish the RPA workflows.
-8. Publish the Agent Builder agents.
-9. Publish the coded agent for Recovery Companion.
-10. Publish the Patient 360 Coded App.
-11. Publish the Maestro BPMN flows.
-12. Create the Maestro Case definition and attach the stage flows.
-13. Load the wearable vitals mock data or connect the selected device export.
-14. Open the Case App and select a demo patient.
-15. Trigger the case creation process.
-16. Follow the demo script for Smooth Sam, Gap Gita, or Critical Carl.
-
----
-
-## Configuration
-
-| Config Name | Description |
-|---|---|
-| `MockEHR_Source` | Location of patient source data. |
-| `GoogleDrive_DischargeFolder` | Folder where discharge packets are stored. |
-| `PatientDocumentFolder` | Folder or source containing lab reports, discharge plans, and clinical documents. |
-| `CareCoordinatorEmail` | Default escalation owner. |
-| `PhysicianReviewerEmail` | Default discharge plan approver. |
-| `CommunicationMode` | Live or mock communication mode. |
-| `RecoveryReminderCadence` | Default reminder cadence for recovery support. |
-| `WearableDataMode` | Simulated, CSV export, or device/API integration. |
-| `EmergencyEscalationEnabled` | Enables emergency case creation path. |
-| `CompanionEscalationThreshold` | Determines when Recovery Companion must raise a concern. |
 
 ---
 
@@ -828,7 +678,7 @@ This project used AI-assisted development as part of the build process.
 
 | Tool | Contribution |
 |---|---|
-| **OpenAI Codex / Coding Agent** | Assisted with workflow logic design, JSON validation patterns, mock data structure, JavaScript snippets, coded app scaffolding concepts, coded agent logic, and README structure. |
+| **OpenAI Codex / Coding Agent** | Assisted with workflow, Agent, Coded App, JSON validation patterns, mock data structure, JavaScript snippets, coded app scaffolding concepts, coded agent logic, and README structure. |
 | **ChatGPT** | Assisted with solution architecture, agent prompts, documentation, demo story, judging strategy, recovery-side narrative, and patient-centered design. |
 
 ### Evidence included
@@ -926,7 +776,7 @@ Current limitations:
 Built for UiPath AgentHack 2026.
 
 **Project:** CareBridge AI — Intelligent Patient Discharge and Recovery Case System  
-**Primary builder:** Vino Livan Nadar  
+**Primary builder:** Vino Livan Nadar, Aslam Basha, Luz Rivera
 **Category:** Track 1 — UiPath Maestro Case  
 **Theme:** Healthcare, patient discharge, patient recovery, Patient 360, wearable monitoring, recovery companion, agentic case management
 
