@@ -283,54 +283,6 @@ The solution follows this principle:
 
 > **Agents recommend. Humans approve. Maestro governs. Robots execute.**
 
----
-
-## Demo Personas
-
-The project includes demo-ready seeded patient scenarios.
-
-### Smooth Sam
-
-A happy-path patient with complete information and no major discharge blockers.
-
-**Demo value:** Shows end-to-end automation speed and clean case progression.
-
----
-
-### Gap Gita
-
-A medium-risk cardiology patient with a medication reconciliation gap.
-
-**Demo value:** Shows readiness assessment, AI gap detection, human review, and loop-back before discharge planning.
-
----
-
-### Critical Carl
-
-A high-risk cardiology patient whose recovery signals indicate worsening condition.
-
-**Demo value:** Shows the architectural wow moment: guided recovery detects risk, interrupts the case flow, creates a linked emergency/readmission case, and alerts the care team.
-
----
-
-## Demo Script
-
-1. Open the mock EHR and flag the patient as nearing discharge readiness.
-2. Maestro creates a Patient Discharge Case.
-3. RPA retrieves and validates patient data.
-4. Agents review clinical readiness, medication reconciliation, and insurance/auth status.
-5. For Gap Gita, the agent identifies a medication gap and sends it to human review.
-6. Nurse resolves the gap.
-7. Discharge Plan Agent drafts the discharge plan.
-8. Physician reviews and approves the plan.
-9. RPA prepares and stores the discharge packet.
-10. Patient/caregiver communication is sent.
-11. Transport is coordinated.
-12. Guided Recovery begins after checkout.
-13. Recovery check-ins and reminders continue.
-14. For Critical Carl, a worsening signal triggers emergency escalation.
-15. Maestro creates a linked emergency/readmission case.
-16. The original discharge case closes with a documented outcome.
 
 ---
 
@@ -417,86 +369,8 @@ flowchart LR
 | `RecoveryCheckIn` | PatientId, CaseId, Timestamp, Symptoms, PainLevel, MedicationTaken, ConcernFlag |
 | `RecoveryOutcome` | CaseId, Outcome, Reason, NextAction, LinkedCaseId |
 
----
 
-## Repository Structure
 
-```text
-carebridge-ai/
-├── README.md
-├── docs/
-│   ├── architecture.md
-│   ├── demo-script.md
-│   ├── data-model.md
-│   ├── agent-prompts.md
-│   ├── setup-guide.md
-│   └── screenshots/
-├── uipath/
-│   ├── maestro-case/
-│   ├── bpmn-flows/
-│   ├── agents/
-│   ├── rpa-workflows/
-│   ├── apps/
-│   └── data-service/
-├── mock-data/
-│   ├── patients.json
-│   ├── payer-snapshot.json
-│   ├── clinical-notes/
-│   └── recovery-checkins.json
-├── sample-outputs/
-│   ├── readiness-summary.json
-│   ├── discharge-plan.json
-│   ├── discharge-packet.pdf
-│   └── recovery-outcome.json
-└── coding-agent-evidence/
-    ├── prompt-log.md
-    ├── generated-components.md
-    └── screenshots/
-```
-
----
-
-## How to Run the Demo
-
-### Prerequisites
-
-- UiPath Automation Cloud tenant
-- UiPath Maestro enabled
-- UiPath Agent Builder enabled
-- UiPath Studio / Studio Web
-- UiPath Apps
-- Data Service or Data Fabric equivalent
-- Google Drive connection or mock document storage
-- Optional communication connector or mock communication workflow
-
-### Setup Steps
-
-1. Clone this repository.
-2. Import the UiPath solution package into Automation Cloud.
-3. Create or verify the Data Service entities listed in the data model.
-4. Upload mock patient data from `mock-data/patients.json`.
-5. Configure Orchestrator assets for environment-specific values.
-6. Publish the RPA workflows.
-7. Publish the Agent Builder agents.
-8. Publish the Maestro BPMN flows.
-9. Create the Maestro Case definition and attach the stage flows.
-10. Open the Case App and select a demo patient.
-11. Trigger the case creation process.
-12. Follow the demo script for Smooth Sam, Gap Gita, or Critical Carl.
-
----
-
-## Configuration
-
-| Config Name | Description |
-|---|---|
-| `MockEHR_Source` | Location of patient source data. |
-| `GoogleDrive_DischargeFolder` | Folder where discharge packets are stored. |
-| `CareCoordinatorEmail` | Default escalation owner. |
-| `PhysicianReviewerEmail` | Default discharge plan approver. |
-| `CommunicationMode` | Live or mock communication mode. |
-| `RecoveryReminderCadence` | Default reminder cadence for recovery support. |
-| `EmergencyEscalationEnabled` | Enables emergency case creation path. |
 
 ---
 
@@ -561,7 +435,7 @@ This project used AI-assisted development as part of the build process.
 
 | Tool | Contribution |
 |---|---|
-| **OpenAI Codex / Coding Agent** | Assisted with workflow logic design, JSON validation patterns, mock data structure, JavaScript snippets, and README scaffolding. |
+| **Claude / Coding Agent** | Assisted with workflow, Mock EHR System, UiPath Coded, App JSON validation patterns, mock data structure, JavaScript snippets, and README scaffolding. |
 | **ChatGPT** | Assisted with solution architecture, agent prompts, documentation, demo story, judging strategy, and patient-centered narrative. |
 
 ### Evidence included
@@ -649,7 +523,7 @@ Current limitations:
 Built for UiPath AgentHack 2026.
 
 **Project:** CareBridge AI — Intelligent Patient Discharge and Recovery Case System  
-**Primary builder:** Vino Livan Nadar  
+**Builders:** Vino Livan Nadar, Aslam Basha, Luz Rivera  
 **Category:** Track 1 — UiPath Maestro Case  
 **Theme:** Healthcare, patient discharge, recovery coordination, agentic case management
 
